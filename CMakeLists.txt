@@ -14,6 +14,9 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt6 REQUIRED COMPONENTS OpenGL)
 find_package(Qt6 REQUIRED COMPONENTS OpenGLWidgets)
 
+include_directories(src/components)
+include_directories(src/shaders)
+
 set(TS_FILES KeyFrame_zh_CN.ts)
 
 set(PROJECT_SOURCES
@@ -25,10 +28,21 @@ set(PROJECT_SOURCES
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(KeyFrame
+
+# target_sources(KeyFrame
+#   PRIVATE
+#     src/shaders/axis.vs
+#     src/shaders/axis.fs
+#     src/shaders/mesh.fs
+#     src/shaders/mesh.vs
+#     src/shaders/point.fs
+#     src/shaders/point.vs
+# )
+qt_add_executable(KeyFrame
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         src/main.cpp
+        src/components/glview.h src/components/glview.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET KeyFrame APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

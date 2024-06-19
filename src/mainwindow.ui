@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>KeyFrame</class>
  <widget class="QMainWindow" name="KeyFrame">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -65,9 +68,21 @@
       <item>
        <layout class="QVBoxLayout" name="MainWindowR">
         <item>
-         <layout class="QVBoxLayout" name="ControllandViewV">
+         <layout class="QVBoxLayout" name="ControllandViewV" stretch="15,3,1">
+          <property name="spacing">
+           <number>2</number>
+          </property>
+          <property name="rightMargin">
+           <number>1</number>
+          </property>
           <item>
-           <widget class="QOpenGLWidget" name="openGLWidget"/>
+           <widget class="GLView" name="openGLWidget"/>
+          </item>
+          <item>
+           <widget class="QPlainTextEdit" name="plainTextEdit"/>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit"/>
           </item>
          </layout>
         </item>
@@ -141,6 +156,13 @@
    </attribute>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GLView</class>
+   <extends>QOpenGLWidget</extends>
+   <header>glview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

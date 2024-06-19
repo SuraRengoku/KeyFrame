@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "components/glview.h"
 #include <QMainWindow>
 #include <QBoxLayout>
 #include <QPushButton>
