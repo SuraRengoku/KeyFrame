@@ -9,32 +9,7 @@ GLView::GLView(QWidget *parent):QOpenGLWidget(parent){
     m_zoom = 45.0;
 }
 
-const char *pointvertex="#version 330 core\n"
-                        "layout (location = 0) in vec3 aPos;\n"
-                        "layout (location = 1) in vec3 aIntensity;\n"
-                        "uniform mat4 model;\n"
-                        "uniform mat4 view;\n"
-                        "uniform mat4 projection;\n"
-                        "out vec3 ourColor;\n"
-                        "void main(){\n"
-                        "gl_Position = projection * view * model * vec4(aPos, 1.0);\n"
-                        "ourColor = vec3(0.5f, 1.0f, 1.0f);\n"
-                        "}\0";
-
-const char *pointfragment="#version 330 core\n"
-                            "out vec4 FragColor;\n"
-                            "in vec3 ourColor;\n"
-                            "void main(){\n"
-                            "FragColor = vec4(ourColor, 1.0f);\n"
-                            "}\0";
-
-GLView::~GLView()
-{
-    // makeCurrent();
-    // glDeleteBuffers(1, &VBO);
-    // glDeleteBuffers(1, &EBO);
-    // glDeleteVertexArrays(1, &VAO);
-    // doneCurrent();
+GLView::~GLView(){
     makeCurrent();
     glDeleteBuffers(1, &m_VBO_MeshLine);
     glDeleteVertexArrays(1, &m_VAO_MeshLine);
@@ -54,8 +29,7 @@ GLView::~GLView()
 }
 
 
-void GLView::updatePoints(const QVector<QVector3D> &points)
-{
+void GLView::updatePoints(const QVector<QVector3D> &points){
     m_pointData.clear();
     for(auto vector3D : points)
     {
@@ -70,9 +44,10 @@ void GLView::loadCsvFile(const QString &path)
 {
     m_pointData.clear();
     // QFile inFile(path);
-    QFile inFile("E:\\Downloads\\marketplacefeldkirch_station1_intensity_rgb\\marketplacefeldkirch_station1_intensity_rgb.txt");
+    QFile inFile(path);
     if (inFile.open(QIODevice::ReadOnly))
     {
+        qDebug()<<"successfully read\n";
         QTextStream stream_text(&inFile);
         while (!stream_text.atEnd())
         {
@@ -91,53 +66,8 @@ void GLView::loadCsvFile(const QString &path)
     }
 }
 
-void GLView::initializeGL()
-{
-    // //初始化纹理变量
-    // for(int i=0;i<2;i++)
-    // {
-    //     textures[i] = new QOpenGLTexture(QImage(QString("../../resource/testrainbow.jpg").arg(i+1)).mirrored());
-    // }
-
-    // //为当前环境初始化OpenGL环境
-    // initializeOpenGLFunctions();
-
-    // //开启深度测试
-    // glEnable(GL_DEPTH_TEST);
-
-    // //下列着色器使用书中代码运行报错,进行了修正
-    // //创建顶点着色器
-    // QOpenGLShader *vshader = new QOpenGLShader(QOpenGLShader::Vertex,this);
-    // const char *vsrc = "#version 330\n"
-    //                    "in vec4 vPosition;\n"
-    //                    "in vec2 vTexCoord;\n"
-    //                    "out vec2 texCoord;\n"
-    //                    "uniform mat4 matrix;\n"
-    //                    "void main()\n"
-    //                    "{\n"
-    //                    "    texCoord = vTexCoord;\n"
-    //                    "    gl_Position = matrix * vPosition;\n"
-    //                    "}\n";
-    // vshader->compileSourceCode(vsrc);
-
-    // //创建片段着色器
-    // QOpenGLShader *fshader = new QOpenGLShader(QOpenGLShader::Fragment,this);
-    // const char *fsrc = "#version 330\n"
-    //                    "uniform sampler2D tex;\n"
-    //                    "in vec2 texCoord;\n"
-    //                    "out vec4 fColor;\n"
-    //                    "void main()\n"
-    //                    "{\n"
-    //                    "    fColor = texture(tex,texCoord);\n"
-    //                    "}\n";
-    // fshader->compileSourceCode(fsrc);
-
-    // //创建着色器程序
-    // program = new QOpenGLShaderProgram;
-    // program->addShader(vshader);
-    // program->addShader(fshader);
-    // program->link();
-    // program->bind();
+void GLView::initializeGL(){
+    loadCsvFile("E:/Downloads/marketplacefeldkirch_station1_intensity_rgb/marketplacefeldkirch_station1_intensity_rgb.csv");
     initializeOpenGLFunctions();
 
     // enable depth_test
@@ -145,23 +75,23 @@ void GLView::initializeGL()
 
     // link meshline shaders   vs文件为顶点着色器  fs为片段着色器
     m_shaderProgramMesh.addShaderFromSourceFile(QOpenGLShader::Vertex,
-                                                "E:\\Projects\\KeyFrame\\src\\shaders\\mesh.vs");
+                                                QString(SHADER_DIR)+"/mesh.vert");
     m_shaderProgramMesh.addShaderFromSourceFile(QOpenGLShader::Fragment,
-                                                "E:\\Projects\\KeyFrame\\src\\shaders\\mesh.fs");
+                                                QString(SHADER_DIR)+"/mesh.frag");
     m_shaderProgramMesh.link();
 
     // link coordinate axis shaders
     m_shaderProgramAxis.addShaderFromSourceFile(QOpenGLShader::Vertex,
-                                                "E:\\Projects\\KeyFrame\\src\\shaders\\axis.vs");
+                                                QString(SHADER_DIR)+"/axis.vert");
     m_shaderProgramAxis.addShaderFromSourceFile(QOpenGLShader::Fragment,
-                                                "E:\\Projects\\KeyFrame\\src\\shaders\\axis.fs");
+                                                QString(SHADER_DIR)+"/axis.frag");
     m_shaderProgramAxis.link();
 
     // link pointcloud shaders
     m_shaderProgramPoint.addShaderFromSourceFile(QOpenGLShader::Vertex,
-                                                 "E:\\Projects\\KeyFrame\\src\\shaders\\point.vs");
+                                                 QString(SHADER_DIR)+"/point.vert");
     m_shaderProgramPoint.addShaderFromSourceFile(QOpenGLShader::Fragment,
-                                                 "E:\\Projects\\KeyFrame\\src\\shaders\\point.fs");
+                                                 QString(SHADER_DIR)+"/point.frag");
     m_shaderProgramPoint.link();
 
     m_vertexCount = drawMeshline(2.0, 16);
@@ -176,58 +106,7 @@ void GLView::resizeGL(int w, int h)
     glViewport(0, 0, w, h);
 }
 
-void GLView::paintGL()
-{
-    // //设置视口为正方形
-    // int w = width();
-    // int h = height();
-    // int side = qMin(w,h);
-    // glViewport((w-side)/2,(h-side)/2,side,side);
-    // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    // //顶点位置
-    // GLfloat vertices[2][4][3] =
-    //     {
-    //         {{-0.8f,0.8f,0.8f},{-0.8f,-0.8f,0.8f},{0.8f,-0.8f,0.8f},{0.8f,0.8f,0.8f}},
-    //         {{0.8f,0.8f,0.8f},{0.8f,-0.8f,0.8f},{0.8f,-0.8f,-0.8f},{0.8f,0.8f,-0.8f}}
-    //     };
-
-    // //添加缓存
-    // vbo.create();
-    // vbo.bind();
-    // vbo.allocate(vertices,48*sizeof(GLfloat));
-    // GLuint vPosition = program->attributeLocation("vPosition");
-    // //glVertexAttribPointer(vPosition,2,GL_FLOAT,GL_FALSE,0,vertices);
-    // program->setAttributeBuffer(vPosition,GL_FLOAT,0,3,0);
-    // glEnableVertexAttribArray(vPosition);
-
-    // //顶点着色
-    // GLfloat coords[2][4][2] =
-    //     {
-    //         {{0.0f,1.0f},{0.0f,0.0f},{1.0f,0.0f},{1.0f,1.0f}},
-    //         {{0.0f,1.0f},{0.0f,0.0f},{1.0f,0.0f},{1.0f,1.0f}}
-    //     };
-    // vbo.write(24*sizeof(GLfloat),coords,16*sizeof(GLfloat));
-    // GLuint vTexCoord = program->attributeLocation("vTexCoord");
-    // program->setAttributeBuffer(vTexCoord,GL_FLOAT,24*sizeof(GLfloat),2,0);
-    // glEnableVertexAttribArray(vTexCoord);
-    // program->setUniformValue("tex",0);
-
-    // //顶点变换
-    // QMatrix4x4 matrix;
-    // matrix.perspective(45.0f,(GLfloat)w/(GLfloat)h,0.1f,100.0f);
-    // matrix.translate(0,0,translate);
-    // matrix.rotate(xRot,1.0,0.0,0.0);
-    // matrix.rotate(yRot,0.0,1.0,0.0);
-    // matrix.rotate(zRot,0.0,0.0,1.0);
-    // program->setUniformValue("matrix",matrix);
-
-    // //绘制函数
-    // for(int i=0;i<2;i++)
-    // {
-    //     textures[i]->bind();
-    //     glDrawArrays(GL_TRIANGLE_FAN,i*4,4);
-    // }
+void GLView::paintGL(){
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

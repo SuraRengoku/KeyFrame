@@ -14,8 +14,10 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt6 REQUIRED COMPONENTS OpenGL)
 find_package(Qt6 REQUIRED COMPONENTS OpenGLWidgets)
 
-include_directories(src/components)
-include_directories(src/shaders)
+include_directories("${PROJECT_SOURCE_DIR}/src/components")
+
+set(SHADER_DIR "${CMAKE_SOURCE_DIR}/src/shaders")
+add_definitions(-DSHADER_DIR="${SHADER_DIR}")
 
 set(TS_FILES KeyFrame_zh_CN.ts)
 
