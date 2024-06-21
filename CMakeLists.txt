@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.16)
 
 project(KeyFrame VERSION 0.1 LANGUAGES CXX)
 
@@ -9,10 +9,15 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(Vulkan_LIBRARY "C:/VulkanSDK/1.3.283.0/Lib")
+set(Vulkan_INCLUDE_DIR "C:/VulkanSDK/1.3.283.0/Include")
+
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt6 REQUIRED COMPONENTS OpenGL)
 find_package(Qt6 REQUIRED COMPONENTS OpenGLWidgets)
+find_package(Qt6 REQUIRED COMPONENTS Concurrent Core Gui Widgets)
+find_package(Vulkan REQUIRED)
 
 include_directories("${PROJECT_SOURCE_DIR}/src/components")
 
@@ -45,6 +50,11 @@ qt_add_executable(KeyFrame
         ${PROJECT_SOURCES}
         src/main.cpp
         src/components/glview.h src/components/glview.cpp
+        src/components/vkview.h src/components/vkview.cpp
+        src/components/renderer.h src/components/renderer.cpp
+        src/components/mesh.h src/components/mesh.cpp
+        src/components/shader.h src/components/shader.cpp
+        src/components/camera.h src/components/camera.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET KeyFrame APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -68,9 +78,14 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(KeyFrame PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-target_link_libraries(KeyFrame PRIVATE Qt6::OpenGL)
-target_link_libraries(KeyFrame PRIVATE Qt6::OpenGLWidgets)
+target_link_libraries(KeyFrame PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt6::OpenGL
+    Qt6::OpenGLWidgets
+    Qt6::Concurrent
+    Qt6::Core
+    Qt6::Gui
+)
 
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
