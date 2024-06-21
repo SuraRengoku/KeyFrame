@@ -51,7 +51,7 @@
     <item>
      <layout class="QHBoxLayout" name="MainWindowH" stretch="8,2">
       <property name="spacing">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="leftMargin">
        <number>0</number>
@@ -76,7 +76,14 @@
            <number>1</number>
           </property>
           <item>
-           <widget class="GLView" name="openGLWidget"/>
+           <widget class="QWidget" name="vkcontainer" native="true">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QPlainTextEdit" name="plainTextEdit"/>
@@ -156,13 +163,6 @@
    </attribute>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>GLView</class>
-   <extends>QOpenGLWidget</extends>
-   <header>glview.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -4,8 +4,28 @@
 #include <QMainWindow>
 #include <QBoxLayout>
 #include <QPushButton>
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
+// namespace Ui {
+// class KeyFrame;
+// }
+// QT_END_NAMESPACE
+
+// class MainWindow : public QMainWindow
+// {
+//     Q_OBJECT
+
+// public:
+//     MainWindow(QWidget *parent = nullptr);
+//     ~MainWindow();
+
+// private:
+//     Ui::KeyFrame *ui;
+// };
+
+class Vkview;
+
 namespace Ui {
 class KeyFrame;
 }
@@ -16,10 +36,13 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(Vkview *vkview, QWidget *parent = nullptr);
     ~MainWindow();
 
 private:
     Ui::KeyFrame *ui;
 };
 #endif // MAINWINDOW_H
+
+
+
