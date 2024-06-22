@@ -29,8 +29,8 @@ MainWindow::MainWindow(Vkview *vkview, QWidget *parent):
     // layout->addWidget(wrapper);
 
     // opengl
-    GLView *glview = new GLView();
-    layout->addWidget(glview);
+    // GLView *glview = new GLView();
+    // layout->addWidget(glview);
 }
 
 MainWindow::~MainWindow()
