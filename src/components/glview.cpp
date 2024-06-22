@@ -67,7 +67,7 @@ void GLView::loadCsvFile(const QString &path)
 }
 
 void GLView::initializeGL(){
-    loadCsvFile("E:/Downloads/marketplacefeldkirch_station1_intensity_rgb/marketplacefeldkirch_station1_intensity_rgb.csv");
+    loadCsvFile(QString(CSV_DIR)+"/marketplacefeldkirch_station1_intensity_rgb.csv");
     initializeOpenGLFunctions();
 
     // enable depth_test

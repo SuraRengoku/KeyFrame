@@ -33,8 +33,11 @@ include_directories("${PROJECT_SOURCE_DIR}/src/components")
 set(SHADER_DIR "${CMAKE_SOURCE_DIR}/src/shaders")
 add_definitions(-DSHADER_DIR="${SHADER_DIR}")
 
-set(MESH_DIR "${CMAKE_SOURCE_DIR}/src/meshes")
+set(MESH_DIR "${CMAKE_SOURCE_DIR}/resource/meshes")
 add_definitions(-DMESH_DIR="${MESH_DIR}")
+
+set(CSV_DIR "${CMAKE_SOURCE_DIR}/resource/csv")
+add_definitions(-DCSV_DIR="${CSV_DIR}")
 
 set(TS_FILES KeyFrame_zh_CN.ts)
 
