@@ -3,15 +3,6 @@
 #include "./ui_mainwindow.h"
 #include "glview.h"
 
-// MainWindow::MainWindow(QWidget *parent)
-//     : QMainWindow(parent)
-//     , ui(new Ui::KeyFrame)
-// {
-//     ui->setupUi(this);
-//     // GLView *glview=new GLView();
-//     // this->ui->openGLWidget=glview;
-// }
-
 MainWindow::MainWindow(Vkview *vkview, QWidget *parent):
     QMainWindow(parent),
     ui(new Ui::KeyFrame)

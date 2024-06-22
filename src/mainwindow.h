@@ -7,22 +7,6 @@
 #include <QWidget>
 
 QT_BEGIN_NAMESPACE
-// namespace Ui {
-// class KeyFrame;
-// }
-// QT_END_NAMESPACE
-
-// class MainWindow : public QMainWindow
-// {
-//     Q_OBJECT
-
-// public:
-//     MainWindow(QWidget *parent = nullptr);
-//     ~MainWindow();
-
-// private:
-//     Ui::KeyFrame *ui;
-// };
 
 class Vkview;
 
