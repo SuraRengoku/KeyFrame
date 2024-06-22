@@ -26,11 +26,11 @@ MainWindow::MainWindow(Vkview *vkview, QWidget *parent):
     QVBoxLayout *layout = new QVBoxLayout(ui->vkcontainer);
 
     // vulkan
-    // layout->addWidget(wrapper);
+    layout->addWidget(wrapper);
 
     // opengl
-    // GLView *glview = new GLView();
-    // layout->addWidget(glview);
+    GLView *glview = new GLView();
+    layout->addWidget(glview);
 }
 
 MainWindow::~MainWindow()
