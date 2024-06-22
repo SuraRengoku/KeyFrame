@@ -9,8 +9,17 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(Vulkan_LIBRARY "C:/VulkanSDK/1.3.283.0/Lib")
-set(Vulkan_INCLUDE_DIR "C:/VulkanSDK/1.3.283.0/Include")
+
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+    message(STATUS "Configuring for macOS")
+    # Do not include the specific lines for macOS
+else()
+    message(STATUS "Configuring for other platforms")
+    # Include the specific lines for other platforms
+    set(Vulkan_LIBRARY "C:/VulkanSDK/1.3.283.0/Lib")
+    set(Vulkan_INCLUDE_DIR "C:/VulkanSDK/1.3.283.0/Include")
+endif()
+
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
@@ -23,6 +32,9 @@ include_directories("${PROJECT_SOURCE_DIR}/src/components")
 
 set(SHADER_DIR "${CMAKE_SOURCE_DIR}/src/shaders")
 add_definitions(-DSHADER_DIR="${SHADER_DIR}")
+
+set(MESH_DIR "${CMAKE_SOURCE_DIR}/src/meshes")
+add_definitions(-DMESH_DIR="${MESH_DIR}")
 
 set(TS_FILES KeyFrame_zh_CN.ts)
 
