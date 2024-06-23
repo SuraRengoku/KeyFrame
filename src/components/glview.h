@@ -5,6 +5,7 @@
 #include<QOpenGLFunctions>
 #include<QOpenGLFunctions_3_3_Core>
 #include<QOpenGLFunctions_4_5_Core>
+// #include<QOpenGLFunctions_4_1_Core>
 #include<QOpenGLBuffer>
 #include<QOpenGLTexture>
 #include<QOpenGLShaderProgram>
@@ -17,7 +18,13 @@
 
 // #include "opengllib_global.h"
 
-class GLView:public QOpenGLWidget,public QOpenGLFunctions_4_5_Core{
+class GLView:public QOpenGLWidget,
+#ifdef PLATFORM_MAC
+    public QOpenGLFunctions
+#else
+    public QOpenGLFunctions_4_5_Core
+#endif
+{
     Q_OBJECT
 public:
     GLView(QWidget *parent=nullptr);
