@@ -13,11 +13,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     message(STATUS "Configuring for macOS")
     # Do not include the specific lines for macOS
+    add_definitions(-DPLATFORM_MAC)
 else()
     message(STATUS "Configuring for other platforms")
     # Include the specific lines for other platforms
     set(Vulkan_LIBRARY "C:/VulkanSDK/1.3.283.0/Lib")
     set(Vulkan_INCLUDE_DIR "C:/VulkanSDK/1.3.283.0/Include")
+    add_definitions(-DPLATFORM_WINDOWS)
 endif()
 
 
